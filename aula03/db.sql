@@ -1,0 +1,9 @@
+USE db_escola;
+
+CREATE TABLE tb_aluno (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    data_nasc DATE NOT NULL,
+    cpf CHAR(11) NOT NULL UNIQUE,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
+);
