@@ -72,3 +72,24 @@ SELECT * FROM tb_aluno WHERE nome LIKE '%Silva';
 SELECT * FROM tb_aluno WHERE nome LIKE '%Silva%';
 
 SELECT * FROM tb_aluno WHERE nome LIKE '%Silva%' OR nome LIKE 'Lucas%';
+
+CREATE TABLE tb_curso (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL,
+    carga_horaria INT(4) NOT NULL
+);
+
+INSERT INTO tb_curso
+    (nome, carga_horaria)
+VALUES
+    ('Analise e Desenvolvimento de Sistemas', '3600');
+
+INSERT INTO tb_curso
+    (nome, carga_horaria)
+VALUES
+    ('Ciencias Sociais', '8000');
+
+INSERT INTO tb_curso
+    (nome, carga_horaria)
+VALUES
+    ('Sistemas de Informacao', '7000');
