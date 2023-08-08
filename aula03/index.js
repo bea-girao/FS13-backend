@@ -1,11 +1,13 @@
 const express = require('express');
 const database = require('./conexao');
 const curso = require('./src/Curso/routes');
+const disciplina = require('./src/Disciplina/routes')
 
 const app = express();
 app.use(express.json()); //a API vai trabalhar com JSON
 
 app.use(curso);
+app.use(disciplina);
 
 app.get('/alunos', async (req, res) => {
     let dados = await database.executar('SELECT * FROM tb_aluno')

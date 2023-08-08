@@ -93,3 +93,14 @@ INSERT INTO tb_curso
     (nome, carga_horaria)
 VALUES
     ('Sistemas de Informacao', '7000');
+
+CREATE TABLE tb_disciplina (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL,
+    carga_horaria INT(3) NOT NULL
+);
+
+INSERT INTO tb_disciplina
+    (nome, carga_horaria)
+VALUES
+    ('React', '250');
