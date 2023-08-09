@@ -1,10 +1,13 @@
 const express = require('express');
+const cors = require('cors')
+
 const database = require('./conexao');
 const curso = require('./src/Curso/routes');
 const disciplina = require('./src/Disciplina/routes')
 
 const app = express();
 app.use(express.json()); //a API vai trabalhar com JSON
+app.use(cors());
 
 app.use(curso);
 app.use(disciplina);

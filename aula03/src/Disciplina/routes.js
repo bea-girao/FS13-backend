@@ -2,14 +2,16 @@ const express = require('express');
 const database = require('../../conexao')
 const app = express.Router();
 
+const TABLE = 'tb_disciplina';
+
 app.get('/disciplinas', async(req, res) => {
-    let dados = await database.executar('SELECT * FROM tb_disciplina');
+    let dados = await database.executar(`SELECT * FROM ${TABLE}`);
     
     res.send(dados);
 });
 
 app.get('/disciplinas/:id', async (req, res) => {
-    let dados = await database.executar(`SELECT * FROM tb_disciplina WHERE id=${req.params.id}`);
+    let dados = await database.executar(`SELECT * FROM ${TABLE} WHERE id=${req.params.id}`);
 
     if (dados.length === 0) {
         res.status(404);
@@ -26,13 +28,18 @@ app.post('/disciplinas', async(req, res) => {
         });
     }
 
+    if (isNaN(carga_horaria)) {
+        res.status(400).send();
+        return;
+    }
+
     let {nome, carga_horaria} = req.body;
 
-    let dados = await database.executar(
-        `INSERT INTO tb_disciplina (nome, carga_horaria) VALUES ('${nome}', '${carga_horaria}')`
+    let resultado = await database.executar(
+        `INSERT INTO ${TABLE} (nome, carga_horaria) VALUES ('${nome}', '${carga_horaria}')`
     );
 
-    req.body.id = dados.insertId;
+    req.body.id = resultado.insertId;
 
     res.status(201);
     res.send(req.body);
@@ -40,21 +47,22 @@ app.post('/disciplinas', async(req, res) => {
 
 app.patch('/disciplinas/:id', async(req, res) => {
     let {nome, carga_horaria} = req.body;
-    let id = req.params.id;
 
     await database.executar(
-        `UPDATE tb_disciplina SET nome='${nome}', carga_horaria='${carga_horaria}' WHERE id='${id}')`
+        `UPDATE ${TABLE} SET nome='${nome}', carga_horaria='${carga_horaria}' WHERE id='${req.params.id}')`
     );
 
-    req.body.id = dados.id;
+    req.body.id = req.params.id;
     res.send(req.body);
 });
 
 app.delete('/disciplinas/:id', async(req, res) => {
-    let dados = await database.executar(`DELETE FROM tb_disciplina WHERE id=${req.params.id}`);
+    let dados = await database.executar(`DELETE FROM ${TABLE} WHERE id=${req.params.id}`);
     
     if (dados.affectedRows === 0) {
-        res.status(404);
+        res.status(404).json({
+            "erro": "Disciplina não cadastrada"
+        });
         res.end();
     }
 
